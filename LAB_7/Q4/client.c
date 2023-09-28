@@ -29,22 +29,30 @@ int main(){
  	tos.sin_family=AF_INET;
  	tos.sin_port=9004;
  	tos.sin_addr.s_addr=inet_addr("127.0.1.1");
- 	int p,count;
- 	char str[10];
-	printf("\nString to Send: ");
- 	gets(str);
- 	int cm1=sendto(csid,str,sizeof(str),0,(struct sockaddr*)&tos,sizeof(tos)); 
-	if(cm1==0){
+ 	int p;
+ 	int n1,n2,rb1,rb2; // n1-->first number to send n2--> second number to send, rb--> bytes of message received, sum-->stores sum from server
+    // First Number
+	printf("\nFirst Number to send: ");
+ 	scanf("%d",&n1);
+ 	int cm1=sendto(csid,&n1,sizeof(n1),0,(struct sockaddr*)&tos,sizeof(tos));
+    // Second number
+ 	printf("\nSecond Number to send: ");
+ 	scanf("%d",&n2);
+ 	int cm2=sendto(csid,&n2,sizeof(n2),0,(struct sockaddr*)&tos,sizeof(tos));
+    //checking if both messages are correctly sent
+	if(cm1==0 || cm2==0){
 	 	printf("\nMessage at client side not found");
 		exit(0);
  	}		 
  	p=sizeof(tos);
- 	int rb=recvfrom(csid,&count,100,0,(struct sockaddr *)&tos,&p);
- 	if(rb==0){
+ 	rb1=recvfrom(csid,&n1,100,0,(struct sockaddr *)&tos,&p);
+ 	rb2=recvfrom(csid,&n2,100,0,(struct sockaddr *)&tos,&p);
+ 	if(rb1==0 || rb2==0){
  		printf("\nMessage received at client side failed");
  		exit(0);
  	}
- 	printf("\n Vowel Count : %d/n",count);
+ 	printf("After swapping value of N1 : %d\n",n1);
+ 	printf("After swapping value of N2 : %d\n",n2);
 	close(csid);
 	return 0;
 }

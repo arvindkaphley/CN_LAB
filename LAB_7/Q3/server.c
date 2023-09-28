@@ -6,16 +6,12 @@
 #include<arpa/inet.h>
 #include<unistd.h>
 #include<string.h>
-int count(char arr[]){
-    int i=0;
-    int c=0;
-    while(arr[i]!='\0'){
-        if(arr[i]=='a' ||arr[i]=='e'||arr[i]=='i'||arr[i]=='o'||arr[i]=='u'){
-            c++;
-        }
-        i++;
+int add(int *arr,int n){
+    int sum=0;
+    for(int i=0;i<n;i++){
+        sum+=arr[i];
     }
-    return c; 
+    return sum;
 }
 int main(){
  	int ssid,ss;
@@ -36,16 +32,18 @@ int main(){
  		exit(0);
  	}
  	printf("\nBinding successful in Server Side");
-    char str[10];
+    int n;
+    int arr[100];
  	struct sockaddr_in frc;
  	int k=sizeof(frc); 
-	int srb1=recvfrom(ssid,str,100,0,(struct sockaddr*)&frc,&k);
- 	if(srb1==0){
+	int srb1=recvfrom(ssid,&n,100,0,(struct sockaddr*)&frc,&k);
+	int srb2=recvfrom(ssid,arr,100,0,(struct sockaddr*)&frc,&k);
+ 	if(srb1==0 || srb2==0){
  		printf("\nServer not received");
  		exit(0);
  	}
-    int c=count(str);
- 	int sendBytes=sendto(ssid,&c,sizeof(c),0,(struct sockaddr *)&frc,sizeof(frc));
+    int sum=add(arr,n);
+ 	int sendBytes=sendto(ssid,&sum,sizeof(sum),0,(struct sockaddr *)&frc,sizeof(frc));
  	if(sendBytes==0){
  	    printf("\nServer Message not sent\n");
  	    exit(0);

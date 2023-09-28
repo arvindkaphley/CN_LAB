@@ -29,22 +29,31 @@ int main(){
  	tos.sin_family=AF_INET;
  	tos.sin_port=9004;
  	tos.sin_addr.s_addr=inet_addr("127.0.1.1");
- 	int p,count;
- 	char str[10];
-	printf("\nString to Send: ");
- 	gets(str);
- 	int cm1=sendto(csid,str,sizeof(str),0,(struct sockaddr*)&tos,sizeof(tos)); 
-	if(cm1==0){
+ 	int p;
+ 	int n,rb,sum; // n1-->first number to send n2--> second number to send, rb--> bytes of message received, sum-->stores sum from server
+    // Size of Array
+	printf("\nArray Size: ");
+ 	scanf("%d",&n);
+    int arr[n];
+ 	int cm1=sendto(csid,&n,sizeof(n),0,(struct sockaddr*)&tos,sizeof(tos));
+    // Array
+ 	printf("\nEnter the array elements: ");
+ 	for(int i=0;i<n;i++){
+        scanf("%d",&arr[i]);
+    }
+ 	int cm2=sendto(csid,arr,sizeof(arr),0,(struct sockaddr*)&tos,sizeof(tos));
+    //checking if both messages are correctly sent
+	if(cm1==0 || cm2==0){
 	 	printf("\nMessage at client side not found");
 		exit(0);
  	}		 
  	p=sizeof(tos);
- 	int rb=recvfrom(csid,&count,100,0,(struct sockaddr *)&tos,&p);
+ 	rb=recvfrom(csid,&sum,100,0,(struct sockaddr *)&tos,&p);
  	if(rb==0){
  		printf("\nMessage received at client side failed");
  		exit(0);
  	}
- 	printf("\n Vowel Count : %d/n",count);
+ 	printf("\n Sum From Server to Client : %d/n",sum);
 	close(csid);
 	return 0;
 }

@@ -44,7 +44,6 @@ int main(){
 	 	printf("\nMessage at client side not found");
 		exit(0);
  	}		 
- 	// printf("\nClient sent : %d",ca);
  	p=sizeof(tos);
  	rb=recvfrom(csid,&sum,100,0,(struct sockaddr *)&tos,&p);
  	if(rb==0){
