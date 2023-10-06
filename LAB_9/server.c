@@ -8,9 +8,9 @@
 #include<string.h>
 
 int main(){
-    int sockfd,confd1,confd2,len1,len2;
+    int sockfd,confd1,confd2,confd3,len1,len2,len3;
     int n1,n2;
-    struct sockaddr_in servaddr,cli1,cli2;
+    struct sockaddr_in servaddr,cli1,cli2,cli3;
 
     sockfd=socket(AF_INET,SOCK_STREAM,0);
     if(sockfd==-1){
@@ -73,6 +73,27 @@ int main(){
     }
 
     if(send(confd2,&n1,sizeof(n1),0)<0){
+        printf("Couldn't send message to Client 2.\n");
+        exit(0);
+    }
+
+
+
+
+    len3=sizeof(cli3);
+    confd3=accept(sockfd,(struct sockaddr *)&cli3,&len3);
+    if(confd3<0){
+        printf("Server accept failed for Client 3.\n");
+        exit(0);
+    }
+    else
+        printf("Server accepted Client 3.\n");
+    char buff[100];
+    if(recv(confd3,buff,sizeof(buff),0)<0){
+        printf("Couldn't receive message from Client 2\n");
+        exit(0);
+    }
+    if(send(confd2,buff,sizeof(buff),0)<0){
         printf("Couldn't send message to Client 2.\n");
         exit(0);
     }

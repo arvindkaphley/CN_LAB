@@ -47,6 +47,13 @@ int main(){
         printf("\nFailed to receive message..\n");
         exit(0);
     }
-    printf("\nCurrent Value of n2: %d",n2);
+    printf("\nCurrent Value of n2: %d\n",n2);
+
+    char buff[100];
+    if(recv(sockfd,buff,sizeof(buff),0)<0){
+        printf("\nFailed to receive message..\n");
+        exit(0);
+    }
+    printf("Message from server : %s\n",buff);
     close(sockfd);
 }

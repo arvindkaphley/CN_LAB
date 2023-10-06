@@ -20,7 +20,7 @@ int main(){
     printf("Socket Successfully Created..\n");
     cli.sin_family=AF_INET;
     cli.sin_addr.s_addr=inet_addr("127.0.1.1");
-    cli.sin_port=9001;
+    cli.sin_port=9003;
 
     servaddr.sin_family=AF_INET;
     servaddr.sin_addr.s_addr=inet_addr("127.0.1.1");
@@ -31,19 +31,21 @@ int main(){
         printf("Connection with the server failed.\n");
         exit(0);
     }
-    printf("Client1 connected to the server.\n");
-    printf("\nEnter the number to send: ");
-    int n1;
-    scanf("%d",&n1);
-    if(send(sockfd,&n1,sizeof(n1),0)<0){
+    printf("Client 3 connected to the server.\n");
+    // char buff[]="Hell";
+    // send(sockfd,buff,sizeof(buff),0);
+    // recv(sockfd,buff,sizeof(buff),0);
+    char message[]="Welcome Client 2";
+
+    if(send(sockfd,message,sizeof(message),0)<0){
         printf("Failed to send message..\n");
         exit(0);
     }
-    printf("Message sent from Client 1: %d\n",n1);
-    if(recv(sockfd,&n1,sizeof(n1),0)<0){
-        printf("Failed to receive message..\n");
-        exit(0);
-    }
-    printf("Current Value of n1: %d\n",n1);
+    // printf("\nMessage sent from Client 2: %d\n",n2);
+    // if(recv(sockfd,&n2,sizeof(n2),0)<0){
+    //     printf("\nFailed to receive message..\n");
+    //     exit(0);
+    // }
+    // printf("\nCurrent Value of n2: %d",n2);
     close(sockfd);
 }
